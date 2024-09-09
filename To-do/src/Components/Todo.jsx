@@ -1,4 +1,5 @@
 import React from 'react'
+import { TodoItem } from './TodoItem';
 
 const Todo = () => {
   return (
@@ -13,8 +14,22 @@ const Todo = () => {
                 <button className='py-3 px-4 bg-blue-600 text-white
                 
                 hover:bg-blue-700 text-sm font-medium rounded-sm border-none'>
-                    Add Task</button>
+                    Add Task
+                </button>
             </div>
+            <p className='my-3 text-sm text-zinc-400 px-1'>Fill the task details</p>
+        </div>
+
+        <div className='w-[30-rem] bg-white shadow py-6 px-4'>
+            <fieldset>
+                <legend className='text-pink-600 font-semibold'>List of tasks</legend>
+                
+                {/* list of items */}                
+               
+                <TodoItem />
+
+                {/* End of the list */}
+            </fieldset> 
         </div>
     </>
     
