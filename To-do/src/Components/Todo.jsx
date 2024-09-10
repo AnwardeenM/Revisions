@@ -26,7 +26,9 @@ const Todo = () => {
                 
                 {/* list of items */}                
                
-                <TodoItem />
+                <TodoItem text="Reading books" />
+                <TodoItem text="Writing Novels" />
+                <TodoItem text="Listening Musics" />
 
                 {/* End of the list */}
             </fieldset> 
