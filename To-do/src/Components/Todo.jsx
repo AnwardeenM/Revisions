@@ -1,7 +1,39 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { TodoItem } from './TodoItem';
 
 const Todo = () => {
+
+    const [todoList, SetTodoList]= useState([
+    {
+        id:123,
+        text:"Reading Books",
+        isComplete:true,
+    },
+    {
+        id:124,
+        text:"Listening Music",
+        isComplete:false,
+    },
+    ]);
+
+    const inputRef = useRef();
+
+    const addTask =()=>{
+        const inputText = inputRef.current.value.trim();
+        if(inputText === ""){
+            return null;
+        }
+
+        const newTodo = {
+            id:Date.now,
+            text:inputText,
+            isComplete:false,
+        }
+        
+        SetTodoList((prev) => [...prev,newTodo]);
+        inputRef.current.value = "";
+    }
+
   return (
     <>
         <div className='w-[30-rem]'> 
@@ -9,11 +41,11 @@ const Todo = () => {
            <h1 className='text-lg my-2 font-medium text-amber-500'>Todo App for the practise</h1>
             <div className='flex gap-2'>
                 <div className='flex-1'>
-                    <input type='text' className='py-3 px-4 w-full text-sm border focus:outline-none focus:border-amber-500' name='' id='' placeholder='Add your task'/>
+                    <input ref={inputRef} type='text' className='py-3 px-4 w-full text-sm border focus:outline-none focus:border-amber-500' name='' id='' placeholder='Add your task'/>
                 </div>
                 <button className='py-3 px-4 bg-blue-600 text-white
                 
-                hover:bg-blue-700 text-sm font-medium rounded-sm border-none'>
+                hover:bg-blue-700 text-sm font-medium rounded-sm border-none' onClick={addTask}>
                     Add Task
                 </button>
             </div>
@@ -21,14 +53,17 @@ const Todo = () => {
         </div>
 
         <div className='w-[30-rem] bg-white shadow py-6 px-4'>
-            <fieldset>
+            <fieldset className='space-y-3'>
                 <legend className='text-pink-600 font-semibold'>List of tasks</legend>
                 
                 {/* list of items */}                
-               
-                <TodoItem text="Reading books" />
-                <TodoItem text="Writing Novels" />
-                <TodoItem text="Listening Musics" />
+               {todoList.length===0 ? (
+                <p className='text-gray-500 text-sm'>No Tasks Found</p>
+               ):(
+                todoList.map((todo,index)=>{
+                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id}/>
+                })
+               )}
 
                 {/* End of the list */}
             </fieldset> 
