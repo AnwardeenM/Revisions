@@ -3,18 +3,7 @@ import { TodoItem } from './TodoItem';
 
 const Todo = () => {
 
-    const [todoList, SetTodoList]= useState([
-    {
-        id:123,
-        text:"Reading Books",
-        isComplete:true,
-    },
-    {
-        id:124,
-        text:"Listening Music",
-        isComplete:false,
-    },
-    ]);
+    const [todoList, SetTodoList]= useState([]);
 
     const inputRef = useRef();
 
@@ -36,7 +25,7 @@ const Todo = () => {
     }
 
     //Update the Task in the Todo List
-    const toggleTodo =(id)=>{
+    const toggleTask =(id)=>{
         SetTodoList((prev)=>{
             return prev.map((todo)=>{
                 if(id===todo.id){
@@ -46,6 +35,14 @@ const Todo = () => {
             })
         }) 
 
+    }
+
+    //Deleting the Task from the Todo List
+
+    const deleteTodo = (id)=>{
+        SetTodoList((prev)=>{
+            return prev.filter((todo)=> todo.id !== id)
+        })
     }
 
   return (
@@ -75,7 +72,7 @@ const Todo = () => {
                 <p className='text-gray-500 text-sm'>No Tasks Found</p>
                ):(
                 todoList.map((todo,index)=>{
-                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTodo={toggleTodo}/>
+                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTask={toggleTask} deleteTodo={deleteTodo}/>
                 })
                )}
 
