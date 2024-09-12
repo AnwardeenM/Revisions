@@ -18,6 +18,7 @@ const Todo = () => {
 
     const inputRef = useRef();
 
+    //Add Task to the Todo List
     const addTask =()=>{
         const inputText = inputRef.current.value.trim();
         if(inputText === ""){
@@ -32,6 +33,19 @@ const Todo = () => {
         
         SetTodoList((prev) => [...prev,newTodo]);
         inputRef.current.value = "";
+    }
+
+    //Update the Task in the Todo List
+    const toggleTodo =(id)=>{
+        SetTodoList((prev)=>{
+            return prev.map((todo)=>{
+                if(id===todo.id){
+                    return {...todo,isComplete:!todo.isComplete}
+                }
+                return todo;
+            })
+        }) 
+
     }
 
   return (
@@ -61,7 +75,7 @@ const Todo = () => {
                 <p className='text-gray-500 text-sm'>No Tasks Found</p>
                ):(
                 todoList.map((todo,index)=>{
-                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id}/>
+                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTodo={toggleTodo}/>
                 })
                )}
 
