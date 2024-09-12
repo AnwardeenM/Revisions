@@ -1,12 +1,18 @@
-import React, { useState, useRef } from 'react'
-import { TodoItem } from './TodoItem';
+import React, { useState, useRef, useEffect } from 'react';
+import {TodoItem} from './TodoItem';
 
 const Todo = () => {
 
-    const [todoList, SetTodoList]= useState([]);
+    const [todoList, SetTodoList]= useState(localStorage.getItem("todos") ? (JSON.parse(localStorage.getItem("todos"))):[]);
 
     const inputRef = useRef();
 
+     //Update the LocalStorage
+     useEffect(()=>{
+        localStorage.setItem("todos",JSON.stringify(todoList))
+    },[todoList]);
+
+     
     //Add Task to the Todo List
     const addTask =()=>{
         const inputText = inputRef.current.value.trim();
@@ -25,26 +31,25 @@ const Todo = () => {
     }
 
     //Update the Task in the Todo List
-    const toggleTask =(id)=>{
-        SetTodoList((prev)=>{
-            return prev.map((todo)=>{
-                if(id===todo.id){
-                    return {...todo,isComplete:!todo.isComplete}
-                }
-                return todo;
-            })
-        }) 
-
-    }
+   const toggleTask = (id)=>{
+    SetTodoList((prev)=>{
+        return prev.map((todo)=>{
+            if(id===todo.id){
+                return {...todo,isComplete:!todo.isComplete}
+            }
+            return todo;
+        });
+    });
+   }
 
     //Deleting the Task from the Todo List
-
     const deleteTodo = (id)=>{
         SetTodoList((prev)=>{
             return prev.filter((todo)=> todo.id !== id)
         })
     }
 
+   
   return (
     <>
         <div className='w-[30-rem]'> 
@@ -72,7 +77,7 @@ const Todo = () => {
                 <p className='text-gray-500 text-sm'>No Tasks Found</p>
                ):(
                 todoList.map((todo,index)=>{
-                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTask={toggleTask} deleteTodo={deleteTodo}/>
+                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTask={toggleTask} deleteTodo={deleteTodo} />
                 })
                )}
 
