@@ -49,6 +49,15 @@ const Todo = () => {
         })
     }
 
+    // Update the Task text in the Todo List
+    const updateTodo = (id, newText) => {
+        SetTodoList((prev) =>
+            prev.map((todo) =>
+                todo.id === id ? { ...todo, text: newText } : todo
+            )
+        )
+    }
+
    
   return (
     <>
@@ -75,9 +84,17 @@ const Todo = () => {
                 {/* list of items */}                
                {todoList.length===0 ? (
                 <p className='text-gray-500 text-sm'>No Tasks Found</p>
-               ):(
+               ):( 
                 todoList.map((todo,index)=>{
-                    return <TodoItem text={todo.text} key={index} isComplete={todo.isComplete} id={todo.id} toggleTask={toggleTask} deleteTodo={deleteTodo} />
+                    return <TodoItem
+                        text={todo.text}
+                        key={todo.id}
+                        isComplete={todo.isComplete}
+                        id={todo.id}
+                        toggleTask={toggleTask}
+                        deleteTodo={deleteTodo}
+                        updateTodo={updateTodo}
+                    />
                 })
                )}
 
